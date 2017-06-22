@@ -30,12 +30,16 @@ namespace Uhr
                 return;
             }
 
+            var start = DateTime.Now;
+
             //IAngleCalc AngelCalculator = new CalcV2();
             IAngleCalc AngelCalculator = new CalcV3();
             foreach ( var timeAngle in AngelCalculator.Values().Where( ta => ta.angle.Diff < 10.0D)  ) //.OrderBy( a => a.Diff ) )
             {
                 Print2(timeAngle);
             }
+
+            Console.Error.WriteLine("Duration: {0}", new TimeSpan(DateTime.Now.Ticks - start.Ticks));
         }
 
         static void Print(TimeWithAngle TimeAngle)
