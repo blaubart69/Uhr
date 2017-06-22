@@ -1,7 +1,7 @@
 ## exclude some dirs in the main dir
 bin/**
 *.txt
-
+*.xlsx
 .settings/**
 
 *.scc

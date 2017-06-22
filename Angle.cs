@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uhr
 {
-    class Angle
+    public class Angle
     {
         public readonly double hour;
         public readonly double min;
@@ -19,24 +19,28 @@ namespace Uhr
             hour = HourAngle;
             min = MinuteAngle;
             sec = SecAngle;
+            _diff = null;
         }
 
-        public double Diff_new
+        public double Diff
         {
             get
             {
-                double a = hour;
-                double b = min;
-                double c = sec;
-                Sort3(ref a, ref b, ref c);
+                if (!_diff.HasValue)
+                {
+                    double a = hour;
+                    double b = min;
+                    double c = sec;
+                    Sort3(ref a, ref b, ref c);
 
-                double d1 = Math.Abs(120d - (b - a));
-                double d2 = Math.Abs(120d - (c - b));
-                double d3 = Math.Abs(120d - (360d - c + a));
+                    double d1 = Math.Abs(120d - (b - a));
+                    double d2 = Math.Abs(120d - (c - b));
+                    double d3 = Math.Abs(120d - (360d - c + a));
 
-                double diff = d1 + d2 + d3;
+                    _diff = d1 + d2 + d3;
+                }
 
-                return diff;
+                return _diff.Value;
             }
         }
 
@@ -48,14 +52,14 @@ namespace Uhr
             if (b > c) Swap(ref b, ref c);
         }
 
-        public static void Swap<T>(ref T a, ref T b)
+        public static void Swap(ref double a, ref double b)
         {
-            T hlp = b;
+            double hlp = b;
             b = a;
-            a = b;
+            a = hlp;
         }
 
-        public double Diff
+        public double Diff_old
         {
             get
             {
